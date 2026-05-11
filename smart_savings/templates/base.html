@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>{% block title %}PulseForge{% endblock %}</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<!-- Telegram WebApp SDK -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<!-- Tailwind (utility helpers) -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- App CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+<!-- Telegram init -->
+<script>
+const tg = window.Telegram.WebApp;
+tg.expand();
+tg.ready();
+tg.setHeaderColor('#050816');
+const _tgUser = tg.initDataUnsafe?.user;
+if (window.location.pathname === '/' && _tgUser && !window.location.search.includes("id=")) {
+    window.location.href = '/?id=' + _tgUser.id
+        + '&username=' + (_tgUser.username || '')
+        + '&first_name=' + encodeURIComponent(_tgUser.first_name || '');
+}
+</script>
+</head>
+<body>
+{% block body %}{% endblock %}
+
+<!-- Live crypto prices -->
+<script src="{{ url_for('static', filename='js/crypto.js') }}"></script>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>
